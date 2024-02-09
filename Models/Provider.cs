@@ -9,7 +9,7 @@ namespace Learn_CRUD_CoreWebApp_MVC.Models
 
         public string FullName { get; set; }
 
-        public DateOnly DateOfRegistration { get; set; }
+        public DateTime DateOfRegistration { get; set; }
 
         public string IsActive { get; set; }    
     }

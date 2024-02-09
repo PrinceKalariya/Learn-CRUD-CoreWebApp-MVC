@@ -12,10 +12,10 @@ namespace Learn_CRUD_CoreWebApp_MVC.Models
 
         public int ProviderId { get; set; }
 
-        [ForeignKey("Provider")]
+        [ForeignKey("ProviderId")]
         public virtual Provider Provider { get; set; }
 
-        [ForeignKey("Services")]
+        [ForeignKey("ServiceId")]
         public virtual Services Services { get; set; }
     }
 }
