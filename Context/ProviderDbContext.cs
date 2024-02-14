@@ -11,6 +11,6 @@ namespace Learn_CRUD_CoreWebApp_MVC.Context
 
         public DbSet<Services> Services { get; set; }
 
-        public DbSet<ProviderServices> ServicesServices { get; set; }
+        public DbSet<ProviderServices> ProviderServices { get; set; }
     }
 }

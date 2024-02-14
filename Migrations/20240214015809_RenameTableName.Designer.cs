@@ -4,6 +4,7 @@ using Learn_CRUD_CoreWebApp_MVC.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Learn_CRUD_CoreWebApp_MVC.Migrations
 {
     [DbContext(typeof(ProviderDbContext))]
-    partial class ProviderDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240214015809_RenameTableName")]
+    partial class RenameTableName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
