@@ -15,9 +15,11 @@ namespace Learn_CRUD_CoreWebApp_MVC.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View();
+            var provider = _context.Providers.Include(p => p.ProviderServices).ThenInclude(s => s.Services).ToList();
+
+            return provider != null ? View( provider ) : View();
         }
 
         public IActionResult Create()
@@ -29,9 +31,9 @@ namespace Learn_CRUD_CoreWebApp_MVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(ProviderFormViewModel providerFormViewModel) 
+        public IActionResult Create(ProviderFormViewModel providerFormViewModel)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var provider = new Provider()
                 {
@@ -54,7 +56,7 @@ namespace Learn_CRUD_CoreWebApp_MVC.Controllers
                 }
 
                 _context.SaveChanges();
-   
+
             }
 
             return RedirectToAction(nameof(Index));
