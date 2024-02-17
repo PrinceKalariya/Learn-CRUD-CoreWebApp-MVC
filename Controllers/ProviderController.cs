@@ -61,5 +61,50 @@ namespace Learn_CRUD_CoreWebApp_MVC.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+        public IActionResult Edit(int id)
+        {
+            var services = _context.Services.ToList();
+            ViewBag.Services = services;
+
+            var providers = _context.Providers.Include(p => p.ProviderServices).ThenInclude(s => s.Services).FirstOrDefault(a => a.ProviderId == id);
+            ViewBag.Details = providers;
+
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(int id, ProviderFormViewModel providerFormViewModel)
+        {
+
+            if (ModelState.IsValid)
+            {
+                var provider = new Provider()
+                {
+                    FullName = providerFormViewModel.FullName,
+                    DateOfRegistration = providerFormViewModel.DateOfRegistration,
+                    IsActive = providerFormViewModel.IsActive
+                };
+
+                _context.Update(provider);
+
+                foreach (var service in providerFormViewModel.ProviderServices)
+                {
+                    var providerService = new ProviderServices()
+                    {
+                        ProviderId = provider.ProviderId,
+                        ServiceId = service,
+                    };
+
+                    provider.ProviderServices.Add(providerService);
+                }
+
+                _context.SaveChanges();
+
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

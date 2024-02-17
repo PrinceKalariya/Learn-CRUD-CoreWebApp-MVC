@@ -1,0 +1,78 @@
+﻿@model Learn_CRUD_CoreWebApp_MVC.Models.Provider
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Create Provider</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="FullName" class="control-label"></label>
+                <input asp-for="FullName" class="form-control" placeholder="Enter Your Name" value=@ViewBag.Details.FullName />
+                <span asp-validation-for="FullName" class="text-danger"></span>
+                <br />
+                <label asp-for="DateOfRegistration" class="control-label"></label>
+                <input asp-for="DateOfRegistration" class="form-control" type="date" value="@((ViewBag.Details.DateOfRegistration).ToString("yyyy-MM-dd"))" />
+                <span asp-validation-for="DateOfRegistration" class="text-danger"></span>
+                <br />
+                <label asp-for="IsActive" class="control-label"></label>
+                <select asp-for="IsActive" class="form-control">
+                    <option value="">Select Status</option>
+                    <option value="Yes" selected=@(ViewBag.Details.IsActive == "Yes")>Yes</option>
+                    <option value="No" selected=@(ViewBag.Details.IsActive == "No")>No</option>
+                </select>
+                <span asp-validation-for="IsActive" class="text-danger"></span>
+                <br />
+                <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+                <label asp-for="ProviderServices" class="control-label"></label>
+                <select asp-for="ProviderServices" class="form-control" multiple id="serviceSelect">
+
+                    @if(ViewBag.Details != null)
+                    {
+                        var providerServices = (HashSet<ProviderServices>)ViewBag.Details.ProviderServices;
+
+                        @foreach (var service in ViewBag.Services)
+                        {
+                            bool isSelect = providerServices.Any(ps => ps.ServiceId == service.ServiceId);
+
+                            <option value="@service.ServiceId" selected=@(isSelect )>@service.Caption</option>
+                        }
+                    }
+                    
+                </select>
+                <span asp-validation-for="ProviderServices" class="text-danger"></span>
+            </div>
+            <div class="form-group my-3">
+                <input type="submit" value="Edit" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    @{
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+        <script>
+            $(document).ready(function () {
+                $('#serviceSelect').select2();
+            });
+        </script>
+    }
+}
+
