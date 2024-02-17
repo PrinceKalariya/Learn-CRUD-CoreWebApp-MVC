@@ -80,14 +80,22 @@ namespace Learn_CRUD_CoreWebApp_MVC.Controllers
 
             if (ModelState.IsValid)
             {
-                var provider = new Provider()
+
+                var provider = _context.Providers.Include(p => p.ProviderServices).ThenInclude(s => s.Services).FirstOrDefault(a => a.ProviderId == id);
+
+                if(provider != null)
                 {
-                    FullName = providerFormViewModel.FullName,
-                    DateOfRegistration = providerFormViewModel.DateOfRegistration,
-                    IsActive = providerFormViewModel.IsActive
+                    provider.FullName = providerFormViewModel.FullName;
+                    provider.DateOfRegistration = providerFormViewModel.DateOfRegistration;
+                    provider.IsActive = providerFormViewModel.IsActive;
                 };
 
                 _context.Update(provider);
+                _context.SaveChanges();
+
+                var serviceList = _context.ProviderServices.Where(p => p.ProviderId == id).ToList();
+                _context.RemoveRange(serviceList);
+                _context.SaveChanges();
 
                 foreach (var service in providerFormViewModel.ProviderServices)
                 {
@@ -105,6 +113,20 @@ namespace Learn_CRUD_CoreWebApp_MVC.Controllers
             }
 
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpDelete]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int id)
+        {
+            if (ModelState.IsValid)
+            {
+                var provider = _context.Providers.Include(p => p.ProviderServices).ThenInclude(s => s.Services).FirstOrDefault(x => x.ProviderId == id);
+
+                _context.RemoveRange(provider.ProviderServices);
+                _context.Remove(provider);
+            }
+            return View();
         }
     }
 }
