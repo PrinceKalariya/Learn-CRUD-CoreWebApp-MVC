@@ -89,7 +89,7 @@ namespace Learn_CRUD_CoreWebApp_MVC.Controllers
                     provider.DateOfRegistration = providerFormViewModel.DateOfRegistration;
                     provider.IsActive = providerFormViewModel.IsActive;
                 };
-
+                
                 _context.Update(provider);
                 _context.SaveChanges();
 
@@ -115,7 +115,7 @@ namespace Learn_CRUD_CoreWebApp_MVC.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        [HttpDelete]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)
         {
@@ -125,8 +125,10 @@ namespace Learn_CRUD_CoreWebApp_MVC.Controllers
 
                 _context.RemoveRange(provider.ProviderServices);
                 _context.Remove(provider);
+
+                _context.SaveChanges();
             }
-            return View();
+            return RedirectToAction(nameof(Index));
         }
     }
 }

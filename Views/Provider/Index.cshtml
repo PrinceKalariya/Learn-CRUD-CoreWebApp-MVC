@@ -47,10 +47,14 @@
                     @service.Services.Caption@:,
                 }
                 </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@provider.ProviderId">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@provider.ProviderId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@provider.ProviderId">Delete</a>
+                <td class="row">
+                    <div class="col-md-3">
+                        <a asp-action="Edit" asp-route-id="@provider.ProviderId" class="btn btn-primary">Edit</a></div>
+                    <div class="col-md-3">
+                        <form asp-action="Delete" asp-route-id="@provider.ProviderId" method="post">
+                            <input type="submit" value="Delete" class="btn btn-danger" onclick="confirm ('do you want to delete ?')" />
+                        </form>
+                    </div>
                 </td>
             </tr>
         }
